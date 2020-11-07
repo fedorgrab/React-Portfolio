@@ -1,29 +1,34 @@
-import React, { Component } from 'react';
-export default class Footer extends Component {
-  render() {
-    let resumeData = this.props.resumeData;
-    return (
-      <footer>
+import React, {useContext} from 'react';
+import {ResumeContext} from "../context";
+import SocialLinkList from "./SocialLinkList";
+
+function goBack(isChild) {
+  if (isChild) window.history.back()
+  if (!isChild) window.scrollTo(0, 0)
+}
+
+const GoBack = ({isChild = false}) => {
+  return (
+    <div id="go-top">
+      <div className="smoothscroll" title={isChild ? "Back" : "Back to Top"}
+           onClick={() => goBack(isChild)}>
+        {isChild ? (<i className="icon-left-open"/>) : (<i className="icon-up-open"/>)}
+      </div>
+    </div>
+  )
+}
+
+const Footer = ({childPage = false}) => {
+  const resumeData = useContext(ResumeContext)
+  return (
+    <footer>
       <div className="row">
         <div className="twelve columns">
-          <ul className="social-links">
-            {
-              resumeData.socialLinks && resumeData.socialLinks.map((item)=>{
-                return(
-                  <li>
-                    <a href={item.url}>
-                    <i className={item.className} />
-                    </a>
-                  </li>
-                )
-              })
-            }
-          </ul>
-          
+          <SocialLinkList socialLinks={resumeData.social_links}/>
         </div>
-        <div id="go-top"><a className="smoothscroll" title="Back to Top" href="#home"><i className="icon-up-open" /></a></div>
+        <GoBack isChild={childPage}/>
       </div>
     </footer>
-    );
-  }
+  )
 }
+export default Footer;
