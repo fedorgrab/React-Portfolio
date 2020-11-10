@@ -1,25 +1,27 @@
 import React from "react";
-import {SectionTopCoordinatesContext} from "../../context";
 import Header from "../Header/Header";
 import About from "../About";
 import Portfolio from "../Portfolio";
 import Resume from "../Resume/Resume";
 import ContactUs from "../ContactUs";
 import Footer from "../Footer";
-import {useSections} from "./service";
+import {useSections} from "./sectionScroll";
+import {useCurrentPosition} from "./sectionScroll";
+import {CurrentContext} from "../../context";
 
 const LandingPage = () => {
   const sectionCoords = useSections()
+  const [current, setCurrentPosition] = useCurrentPosition(sectionCoords)
   return (
     <div className="app">
-      <SectionTopCoordinatesContext.Provider value={sectionCoords}>
+      <CurrentContext.Provider value={{current, setCurrentPosition}}>
         <Header/>
         <About/>
         <Portfolio/>
         <Resume/>
         <ContactUs/>
         <Footer/>
-      </SectionTopCoordinatesContext.Provider>
+      </CurrentContext.Provider>
     </div>
   )
 }

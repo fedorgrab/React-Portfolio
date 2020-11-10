@@ -1,7 +1,6 @@
 import React from "react";
 
 const ContactDetails = ({resumeData}) => {
-  
   return (
     <div className="row">
       <div className="columns contact-details">

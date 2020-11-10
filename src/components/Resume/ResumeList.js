@@ -19,7 +19,7 @@ const ResumeList = ({items, titleKey, roleKey, dateKey, descriptionKey}) => {
     <div className="nine columns main-col">
       {
         items.map((item) => (
-            <ResumeListItem item={item} titleKey={titleKey} roleKey={roleKey} dateKey={dateKey} descriptionKey={descriptionKey} key={item[titleKey]}/>
+            <ResumeListItem item={item} titleKey={titleKey} roleKey={roleKey} dateKey={dateKey} descriptionKey={descriptionKey} key={Math.random(0).toString(36).substr(2)}/>
           )
         )
       }

@@ -7,7 +7,13 @@ export async function getPortfolioData() {
   return await response.json()
 }
 
-export function useBackend(setResumeData) {
+export function useBackend() {
+  const [resumeData, setResumeData] = useState({
+    social_links: [],
+    portfolio: [],
+    education: [],
+    work: []
+  })
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     let mounted = true
@@ -20,5 +26,5 @@ export function useBackend(setResumeData) {
     })
     return () => mounted = false
   }, [])
-  return loading
+  return [loading, resumeData]
 }

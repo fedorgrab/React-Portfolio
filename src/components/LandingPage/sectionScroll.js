@@ -1,14 +1,31 @@
+import {useContext, useEffect, useState} from "react";
 import {NAV_SECTIONS} from "../../constants";
-import {useContext, useEffect} from "react";
-import {NavigationStateContext, SectionTopCoordinatesContext} from "../../context";
+import {NavigationStateContext} from "../../context";
+
+export function useSections() {
+  const [sectionCoords, setSectionCoords] = useState(null)
+  useEffect(() => {
+    let sectionCoordsTmp = {}
+    for (let section of NAV_SECTIONS) {
+      const sectionEl = document.getElementById(section)
+      sectionCoordsTmp[section] = {
+        top: sectionEl.offsetTop,
+        bottom: sectionEl.offsetTop + sectionEl.clientHeight
+      }
+    }
+    setSectionCoords(sectionCoordsTmp)
+  }, [])
+  return sectionCoords
+}
+
 
 function handleScroll(sectionYs, setCurrent) {
   const currentY = window.pageYOffset
-  NAV_SECTIONS.map((section) => {
+  for (let section of NAV_SECTIONS) {
     if (currentY >= sectionYs[section].top - 300 && currentY <= sectionYs[section].bottom) {
       setCurrent(section)
     }
-  })
+  }
 }
 
 function getSetCurrentPosition(setCurrent, sectionTopCoords) {
@@ -18,9 +35,8 @@ function getSetCurrentPosition(setCurrent, sectionTopCoords) {
   }
 }
 
-export function useCurrentPosition() {
+export function useCurrentPosition(sectionTopCoords) {
   const {navigationState, setNavigationState} = useContext(NavigationStateContext)
-  const sectionTopCoords = useContext(SectionTopCoordinatesContext)
   const handleScrollEvent = () => handleScroll(sectionTopCoords, setNavigationState)
   const setCurrentPosition = getSetCurrentPosition(setNavigationState, sectionTopCoords)
   useEffect(() => {

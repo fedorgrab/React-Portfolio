@@ -11,6 +11,7 @@ export function useProject(projectName) {
     if (!applicationIsStillLoading) {
       const prj = resumeData.portfolio.filter((project) => project.name === projectName)[0]
       setProject(prj)
+      window.scrollTo(0, 0)
       const fetchData = async () => {
         if (prj.notebook) {
           let response = await fetch(`${HOST_NAME}${prj.notebook}`)
